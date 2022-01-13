@@ -24,16 +24,17 @@ public class MyPlayList extends AppCompatActivity {
         ArrayList<Song> songs =new ArrayList<>();
         songs.add(new Song("song1",""));
         songs.add(new Song("song2",""));
-        ArrayAdapter<Song> adapter = new MonAdapteur(this, android.R.layout.simple_list_item_1, songs);
+        ArrayAdapter<Song> adapter = new MonAdapteur(this, R.layout.ligne, songs);
         mylist= findViewById(R.id.maListe);
         mylist.setAdapter(adapter);
         mylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String p = adapterView.getItemAtPosition(i).toString();
+            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+                Song song=(Song) parent.getItemAtPosition(pos);
+                String p =song.getTitre();
                 demarrer(p);
             }
-        });
+            });
         registerForContextMenu(mylist);
     }
 
@@ -52,14 +53,16 @@ public class MyPlayList extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Mettez Votre Titre ici"); MenuInflater inflater = getMenuInflater(); inflater.inflate(R.menu.menu, menu);
+        menu.setHeaderTitle("Mettez Votre Titre ici");
+        MenuInflater inflater = getMenuInflater(); inflater.inflate(R.menu.menu, menu);
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         AdapterView.AdapterContextMenuInfo info =
             (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        String title = mylist.getItemAtPosition(info.position).toString();
+        Song song =(Song)mylist.getItemAtPosition(info.position);
+        String title = song.getTitre();
         switch (item.getItemId()) {
             case R.id.play:
                 demarrer(title);
