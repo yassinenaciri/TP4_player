@@ -25,13 +25,13 @@ public class ServiceMusique extends Service {
 
     @Override
     public void onDestroy() {
+        mediaPlayer.stop();
         super.onDestroy();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        super.onStartCommand(intent, flags, startId);
-        System.out.println("HEEEEEEEEEEE"+intent.getAction());
+        int result = super.onStartCommand(intent, flags, startId);
 
         if (intent.getAction() == "START"){
             if (mediaPlayer != null){
@@ -42,11 +42,11 @@ public class ServiceMusique extends Service {
             mediaPlayer.start();
         }
         else if (intent.getAction() == "STOP"){
-            if (mediaPlayer != null){
+            if (mediaPlayer != null ){
                 mediaPlayer.stop();
             }
         }
 
-        return Service.START_STICKY_COMPATIBILITY;
+        return result;
     }
 }

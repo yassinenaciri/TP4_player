@@ -29,7 +29,12 @@ public class HomeActivite extends AppCompatActivity {
     public void stop(View view){
         Intent intent =new Intent(this,ServiceMusique.class);
         intent.setAction("STOP");
+        intent.putExtra("songName","song1");
         startService(intent);
+    }
+
+    public void quit(View view){
+        finish();
     }
 
 
